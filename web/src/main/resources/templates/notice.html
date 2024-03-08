@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- 설정창 -->
+<head>
+<meta charset="UTF-8">
+<th:block th:insert="~{menu.html :: head}"></th:block>
+</head>
+<body>
+<th:block th:insert="~{menu.html :: menu}"></th:block>
+<section id="features">
+
+	<!-- 부트스트랩 안쓰는 경우 => style="display: table" -->
+<aside class="text-center">
+	<div class="container px-5">
+	<h1>공지사항</h1>
+	<span>[[${#lists.size(fb)}]]개 글이 있습니다</span>
+	
+	<div th:if="${#lists.size(fb) le 0}">
+		<h2>출력할 데이터가 없습니다.</h2>
+	</div>
+	<div th:unless="${#lists.size(fb) le 0}">
+		<div class="table table-hover" >
+		<div class="row" th:each="row : ${fb}">
+			<div class="col-1" th:text="${row.mtno}">번호</div>
+			<div class="col-6 text-start" th:onclick="|location.href='@{/detail(no=${row.mtno})}'|">[[${row.mttitle}]]</div>
+			<div class="col-2" th:text=${row.mname}>글쓴이</div>
+			<div class="col-2" th:text=${row.mtdate}>날짜</div>
+			<div class="col-1" th:text=${row.mtread}>읽음</div>
+		</div>
+		</div>
+	</div>
+	
+	<button type="button" th:with="cate=${fb[0].mtcate}" 
+      class="btn btn-primary" th:onclick="|location.href='@{/write(cate=${cate})}'|">글쓰기</button>
+	
+	</div>
+</aside>	
+	
+	
+</section>
+
+<th:block th:insert="~{menu.html :: footer}"></th:block>
+</body>
+</html>

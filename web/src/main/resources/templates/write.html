@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- 설정창 -->
+<head>
+<meta charset="UTF-8">
+<th:block th:insert="~{menu.html :: head}"></th:block>
+</head>
+<body>
+<th:block th:insert="~{menu.html :: menu}"></th:block>
+<section id="features">
+<aside class="text-center">
+<h1>글쓰기</h1>
+
+들어온 카테고리 : [[${param.cate}]]
+	<div class="container px-5">
+	<div class="p-2 rounded">
+		<form action="/write" method="post" name="frm">
+			<div class="input-group mb-3">
+				<input type="text" id="title" name="title" class="form-control" required="required" placeholder="제목을 입력하세요">
+			</div>	
+			<textarea id="content" name="content" class="form-control mb-2 " style="height:300px" required="required"></textarea>
+			<button type="submit" class="btn btn-info">글쓰기</button>
+			<input type="hidden" name="mtcate" th:value="${param.cate}">
+		</form>
+	</div>
+	
+	</div>
+</aside>	
+	
+</section>
+
+<th:block th:insert="~{menu.html :: footer}"></th:block>
+</body>
+</html>
