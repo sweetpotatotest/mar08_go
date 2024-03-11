@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.kgb4232.web.dto.BoardDTO;
 
 @Repository
 @Mapper
@@ -14,12 +13,16 @@ public interface IndexDAO {
 
 	List<Map<String, Object>> boardList();
 
-	BoardDTO detail(int no);
+	Map<String, Object> detail(int no);
 
-	List<BoardDTO> freeboard(int cate);
+	List<Map<String, Object>> freeboard(int cate);
 
 	int write(Map<String, Object> map);
 
 	int postDel(int no);
+
+	List<Map<String, String>> menu();
+
+	void postUpdate(Map<String, Object> map);
 
 }

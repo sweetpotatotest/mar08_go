@@ -45,10 +45,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="/freeboard?cate=1">프리보드1</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="/notice?cate=2">notice</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="/freeboard?cate=3">프리보드3</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3" href="/freeboard?cate=4">프리보드4</a></li>
+						<th:block th:each="m : ${menu}">                    	
+                        <li class="nav-item"><a class="nav-link me-lg-3" th:href="|/freeboard?cate=${m.cate }|">[[${m.catename}]]</a></li>
+                        </th:block>
+                        
                         <th:block th:if="${session.mid ne null}">
                         <li class="nav-item"><a class="nav-link me-lg-3" href="/myInfo">[[${session.mname}]]님</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3" href="/logout">logout</a></li>

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kgb4232.web.dao.IndexDAO;
-import com.kgb4232.web.dto.BoardDTO;
 import com.kgb4232.web.util.Util;
 
 @Service
@@ -23,17 +22,17 @@ public class IndexService {
 		return indexDAO.boardList();
 	}
 
-	public BoardDTO detail(int no) {
+	public Map<String, Object> detail(int no) {
 		return indexDAO.detail(no);
 	}
 
-	public List<BoardDTO> freeboard(int cate) {
+	public List<Map<String, Object>> freeboard(int cate) {
 		return indexDAO.freeboard(cate);
 	}
 
 	public int write(Map<String, Object> map) {
 		// db - mid, ip 추가
-		map.put("mid", "test1");
+		map.put("mid", util.getSession().getAttribute("mid"));
 		map.put("mtip", util.getIP());
 		return indexDAO.write(map);
 	}
@@ -42,4 +41,13 @@ public class IndexService {
 		return indexDAO.postDel(no);
 	}
 
+	public List<Map<String, String>> menu() {
+		return indexDAO.menu();
+	}
+
+	public void postUpdate(Map<String, Object> map) {
+		map.put("mid", util.getSession().getAttribute("mid"));// 본인 맞는지
+		indexDAO.postUpdate(map);
+	}
+	
 }

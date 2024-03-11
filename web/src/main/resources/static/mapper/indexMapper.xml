@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.kgb4232.web.dao.IndexDAO">
 
-	<select id="freeboard" parameterType="int" resultType="com.kgb4232.web.dto.BoardDTO">
-		SELECT t.mtno, t.mttitle, t.mtcontent, t.mtip, t.mtdel, t.mtread, t.mtcate, 
-		if(DATE_FORMAT(now(), '%Y-%m-%d') = DATE_FORMAT(t.mtdate, '%Y-%m-%d'), DATE_FORMAT(t.mtdate, '%H:%i'), DATE_FORMAT(t.mtdate, '%m-%d')) as mtdate, 
-		m.mid, m.mname
-		FROM multiboard t JOIN member m ON t.mno=m.mno
-		WHERE mtcate=#{cate} AND mtdel=1
+	<select id="menu" resultType="Map">
+		SELECT cate, catename FROM menu
 	</select>
-	
-	<insert id="write" parameterType="Map">
-		INSERT INTO multiboard (mttitle, mtcontent, mtip, mtcate, mno)
-		VALUES (#{title}, #{content}, #{mtip}, #{mtcate}, (SELECT mno FROM member WHERE mid=#{mid}))
-	</insert>
-	
-	<select id="detail" parameterType="int" resultType="BoardDTO">
-		SELECT t.mtno, t.mttitle, t.mtcontent, t.mtip, t.mtdel, t.mtread, t.mtcate, 
-		if(DATE_FORMAT(now(), '%Y-%m-%d') = DATE_FORMAT(t.mtdate, '%Y-%m-%d'), DATE_FORMAT(t.mtdate, '%H:%i'), DATE_FORMAT(t.mtdate, '%m-%d')) as mtdate, 
-		m.mid, m.mname
-		FROM multiboard t JOIN member m ON t.mno=m.mno
+
+	<select id="freeboard" parameterType="int" resultType="Map">
+		SELECT mtno, mttitle, mname, mtdate, mtip, mtdel, mtread, mtcate
+		FROM multiboardview
+		WHERE mtcate=#{cate} AND mtdel=1
+		LIMIT 0, 10
+	</select>
+		
+	<select id="detail" parameterType="int" resultType="Map">
+		SELECT mtno, mttitle, mtcontent, mname, mid, mtdate, mtip, mtdel, mtread, mtcate
+		FROM multiboardview
 		WHERE mtno=#{no}
 	</select>
 	
+	
+	<insert id="write" parameterType="Map">
+		INSERT INTO multiboard (mttitle, mtcontent, mtip, mtcate, mno)
+		VALUES (#{title}, #{content}, #{mtip}, #{cate}, (SELECT mno FROM member WHERE mid=#{mid}))
+	</insert>
+	
 	<update id="postDel" parameterType="int">
-		UPDATE multiboard SET mtdel=0 WHERE mtno=#{no}	
+		UPDATE multiboard SET mtdel=0 
+		WHERE mtno=#{no}
 	</update>
+	
+	<update id="postUpdate" parameterType="Map">
+		UPDATE multiboard SET mttitle=#{title}, mtcontent=#{content} 
+		WHERE mtno=#{mtno} AND mno=(SELECT mno FROM member WHERE mid=#{mid})
+	</update>
+
 </mapper>

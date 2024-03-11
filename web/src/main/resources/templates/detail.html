@@ -15,7 +15,18 @@ function update(no){
 		  confirmButtonText: "수정"
 		}).then((result) => {
 		  if (result.isConfirmed) {
-		    Swal.fire({title: "수정을 선택했습니다.", text: "수정합니다.", icon: "success"});
+			  let form = document.createElement('form');
+			    form.setAttribute('method','get');
+			    form.setAttribute('action','/postUpdate');
+			    
+			    let input = document.createElement('input');
+			    input.setAttribute('type','hidden');
+			    input.setAttribute('name','no');
+			    input.setAttribute('value', no);
+			    
+			    form.appendChild(input);
+			    document.body.appendChild(form);
+			    form.submit();
 		  }
 		});
 }

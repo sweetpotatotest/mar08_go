@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- 설정창 -->
+<head>
+<meta charset="UTF-8">
+<th:block th:insert="~{menu.html :: head}"></th:block>
+</head>
+<body>
+<th:block th:insert="~{menu.html :: menu}"></th:block>
+<section id="features">
+<aside class="text-center">
+<h1>수정</h1>
+[[${update}]]
+	<div class="container px-5">
+	<div class="p-2 rounded">
+		<form action="/postUpdate" method="post">
+			<div class="p-2 rounded" style="background-color: #c0c0c0">
+				<div class="input-group mb-2">
+  					<span class="input-group-text" id="basic-addon1">제목</span>
+  					<input type="text" name="title" class="form-control" th:value="${update.mttitle }" placeholder="제목" aria-label="제목" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group">
+  					<span class="input-group-text">본문</span>
+  					<textarea name="content" class="form-control" aria-label="With textarea" style="height: 300px">[[${update.mtcontent}]]</textarea>
+				</div>
+			</div>
+			<div class="mt-2">
+				<input type="hidden" name="mtno" th:value="${update.mtno }">
+				<input type="hidden" name="mtcate" th:value="${update.mtcate }">
+				
+				<button type="submit" class="btn btn-info">글쓰기</button>
+			</div>
+		</form>
+	</div>
+	
+	</div>
+</aside>	
+	
+</section>
+
+<th:block th:insert="~{menu.html :: footer}"></th:block>
+</body>
+</html>
